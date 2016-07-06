@@ -105,8 +105,8 @@ exports.update = function( req, res, next ){
             return next();
         }
         else if( !schedule ){
-            console.log( 'No driver found' );
-            res.send( 400, { errors: [ 'Driver not found' ] } );
+            console.log( 'No vehicle found' );
+            res.send( 400, { errors: [ 'Vehicle not found' ] } );
         }
         else{
             if( !!req.body.schedule.day_of_week ){
