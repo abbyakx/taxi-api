@@ -100,6 +100,10 @@ exports.update = function( req, res, next ){
             if( !!req.body.driver.license_number ){
                 driver.license_number = req.body.driver.license_number;
             }
+            else{
+                res.send( 400, { errors: [ "Invalid entries" ] } );
+                return next();
+            }
 
             driver.save().done( function(){
                 res.send( 200, { driver: driver } );
