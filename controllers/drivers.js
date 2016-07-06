@@ -55,7 +55,7 @@ exports.create = function( req, res, next ){
 exports.view = function( req, res, next ){
     Driver.find( {
         where: {
-            id: "c54dc920-439b-11e6-a7c7-a35ba701aacc"
+            id: req.params.driver_id
         }
     } ).done( function( err, driver ){
         if( !!err ){
@@ -68,7 +68,7 @@ exports.view = function( req, res, next ){
         }
         else{
             console.log( "Here is the driver" );
-            console.log( driver );
+            console.log( JSON.stringify(driver) );
 
             res.send( 200, { driver: driver } );
             return next();
@@ -100,7 +100,7 @@ exports.update = function( req, res, next ){
             if( !!req.body.driver.license_number ){
                 driver.license_number = req.body.driver.license_number;
             }
-            
+
             driver.save().done( function(){
                 res.send( 200, { driver: driver } );
                 return next();
