@@ -20,7 +20,6 @@ server.use( restify.authorizationParser() );
 server.use( restify.CORS() );
 server.use( restify.fullResponse() );
 
-restify.CORS.ALLOW_HEADERS.push( 'authorization' );
 
 server.on( 'uncaughtException', function( req, res, route, error ){
 
