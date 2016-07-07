@@ -133,12 +133,12 @@ exports.delete = function( req, res, next ){
             if( vehicle.status == 0 ){
                 vehicle.status = 1;
                 vehicle.save().done( function(){
-                    res.send( 200, { vehicle: vehicle } );
+                    res.send( 200, { message: ["Vehicle has been deleted"] } );
                     return next();
                 } )
             }
             else{
-                res.send( 400, { errors: [ "Driver cannot be deleted" ] } );
+                res.send( 400, { errors: [ "Vehicle cannot be deleted" ] } );
                 return next();
             }
         }

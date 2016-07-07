@@ -158,7 +158,7 @@ exports.delete = function( req, res, next ){
             if( schedule.status == 0 ){
                 schedule.status = 1;
                 schedule.save().done( function(){
-                    res.send( 200, { schedule: schedule } );
+                    res.send( 200, { message: ["Schedule has been deleted"] } );
                     return next();
                 } )
             }

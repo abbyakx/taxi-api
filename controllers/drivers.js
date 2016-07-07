@@ -131,7 +131,7 @@ exports.delete = function( req, res, next ){
             if( driver.status == 0 ){
                 driver.status = 1;
                 driver.save().done( function(){
-                    res.send( 200, { driver: driver } );
+                    res.send( 200, { message: ["Driver has been deleted"] } );
                     return next();
                 } )
             }
