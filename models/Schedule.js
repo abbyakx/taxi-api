@@ -25,6 +25,10 @@ module.exports = function( sequelize, DataTypes ){
                 type: DataTypes.STRING,
                 allowNull: false
             },
+            driver_name:{
+                type:DataTypes.STRING,
+                allownull:false
+            },
             /**
              * 0 = current schedule
              * 1 = past schedule

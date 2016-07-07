@@ -3,6 +3,7 @@ var db = require( '../models' );
 var _ = require( 'lodash' );
 
 var Schedule = db.Schedule;
+var Driver = db.Driver;
 
 
 exports.index = function( req, res, next ){
@@ -32,45 +33,57 @@ exports.create = function( req, res, next ){
         res.send( 400, { errors: [ "Must have a driver for the schedule" ] } )
     }
     else{
-        Schedule.find( {
+        Driver.find( {
             where: {
-                driver_id: req.body.schedule.driver_id,
-                day_of_week: req.body.schedule.day_of_week
+                id: req.body.schedule.driver_id
             }
-        } ).done( function( err, schedule ){
+        } ).done( function( err, driver ){
+
             if( !!err ){
                 console.log( err );
                 return next();
             }
-            else if( !!schedule ){
-                res.send( 400, { errors: [ "This driver already has a schedule for " + req.body.schedule.day_of_week ] } )
-            }
-            else{
-                var newSchedule = Schedule.build( {
-                    day_of_week: req.body.schedule.day_of_week,
-                    start_time: req.body.schedule.start_time,
-                    end_time: req.body.schedule.end_time,
-                    driver_id: req.body.schedule.driver_id
-                } );
+            Schedule.find( {
+                where: {
+                    driver_id: req.body.schedule.driver_id,
+                    day_of_week: req.body.schedule.day_of_week
+                }
+            } ).done( function( err, schedule ){
+                if( !!err ){
+                    console.log( err );
+                    return next();
+                }
+                else if( !!schedule ){
+                    res.send( 400, { errors: [ "This driver already has a schedule for " + req.body.schedule.day_of_week ] } )
+                }
+                else{
+                    var newSchedule = Schedule.build( {
+                        day_of_week: req.body.schedule.day_of_week,
+                        start_time: req.body.schedule.start_time,
+                        end_time: req.body.schedule.end_time,
+                        driver_id: req.body.schedule.driver_id,
+                        driver_name: driver.first_name + " " + driver.last_name
+                    } );
 
-                newSchedule.save().done( function( err ){
-                    if( !!err ){
-                        console.log( err );
-                        return next();
-                    }
-                    else{
-                        newSchedule.values.day_of_week = newSchedule.day_of_week;
-                        newSchedule.values.start_time = newSchedule.start_time;
-                        newSchedule.values.end_time = newSchedule.end_time;
-                        newSchedule.values.driver_id = newSchedule.driver_id;
+                    newSchedule.save().done( function( err ){
+                        if( !!err ){
+                            console.log( err );
+                            return next();
+                        }
+                        else{
+                            newSchedule.values.day_of_week = newSchedule.day_of_week;
+                            newSchedule.values.start_time = newSchedule.start_time;
+                            newSchedule.values.end_time = newSchedule.end_time;
+                            newSchedule.values.driver_id = newSchedule.driver_id;
 
-                        res.send( 200, { schedule: newSchedule } );
-                        console.log( "New schedule is created" );
-                        console.log( newSchedule );
-                        return next();
-                    }
-                } );
-            }
+                            res.send( 200, { schedule: newSchedule } );
+                            console.log( "New schedule is created" );
+                            console.log( newSchedule );
+                            return next();
+                        }
+                    } );
+                }
+            } );
         } );
     }
 };
@@ -158,7 +171,7 @@ exports.delete = function( req, res, next ){
             if( schedule.status == 0 ){
                 schedule.status = 1;
                 schedule.save().done( function(){
-                    res.send( 200, { message: ["Schedule has been deleted"] } );
+                    res.send( 200, { message: [ "Schedule has been deleted" ] } );
                     return next();
                 } )
             }
