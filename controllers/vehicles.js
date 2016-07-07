@@ -30,9 +30,10 @@ exports.index = function( req, res, next ){
 exports.create = function( req, res, next ){
 
     var newVehicle = Vehicle.build( {
-       plate_number: req.body.vehicle.plate_number,
+        plate_number: req.body.vehicle.plate_number,
         make: req.body.vehicle.make,
-        model: req.body.vehicle.model
+        model: req.body.vehicle.model,
+        //status: 0
 
     } );
 
@@ -45,6 +46,7 @@ exports.create = function( req, res, next ){
             newVehicle.values.plate_number = newVehicle.plate_number;
             newVehicle.values.make = newVehicle.make;
             newVehicle.values.model = newVehicle.model;
+            newVehicle.values.status = newVehicle.status;
 
 
             res.send( 200, { vehicle: newVehicle } );
@@ -112,4 +114,34 @@ exports.view = function( req, res, next ){
 //        }
 //    } );
 //};
+
+exports.delete = function( req, res, next ){
+    Vehicle.find( {
+        where: {
+            id: req.params.vehicle_id
+        }
+    } ).done( function( err, vehicle ){
+        if( !!err ){
+            console.log( err );
+            return next();
+        }
+        else if( !vehicle ){
+            console.log( 'No vehicle found' );
+            res.send( 400, { errors: [ 'Vehicle not found' ] } );
+        }
+        else{
+            if( vehicle.status == 0 ){
+                vehicle.status = 1;
+                vehicle.save().done( function(){
+                    res.send( 200, { vehicle: vehicle } );
+                    return next();
+                } )
+            }
+            else{
+                res.send( 400, { errors: [ "Driver cannot be deleted" ] } );
+                return next();
+            }
+        }
+    } );
+};
 

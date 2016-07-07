@@ -17,6 +17,20 @@ module.exports = function( sequelize, DataTypes ){
                 type: DataTypes.STRING,
                 allowNull: false
             },
+            /**
+             * 0 = current driver
+             * 1 = past driver
+             */
+            status:{
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                defaultValue: 0,
+                validate: {
+                    isIn: [
+                        [ 0, 1 ]
+                    ]
+                }
+            }
         },
         {
             tableName: 'drivers',

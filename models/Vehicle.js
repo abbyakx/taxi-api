@@ -16,6 +16,20 @@ module.exports = function( sequelize, DataTypes ){
             model:{
                 type: DataTypes.STRING,
                 allowNull: true
+            },
+            /**
+             * 0 = current vehicle
+             * 1 = past vehicle
+             */
+            status:{
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                defaultValue: 0,
+                validate: {
+                    isIn: [
+                        [ 0, 1 ]
+                    ]
+                }
             }
         },
         {

@@ -25,6 +25,20 @@ module.exports = function( sequelize, DataTypes ){
                 type: DataTypes.STRING,
                 allowNull: false
             },
+            /**
+             * 0 = current schedule
+             * 1 = past schedule
+             */
+            status:{
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                defaultValue: 0,
+                validate: {
+                    isIn: [
+                        [ 0, 1 ]
+                    ]
+                }
+            }
         },
         {
             tableName: 'schedules',

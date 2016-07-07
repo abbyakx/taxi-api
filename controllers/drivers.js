@@ -112,3 +112,35 @@ exports.update = function( req, res, next ){
         }
     } );
 };
+
+exports.delete = function( req, res, next ){
+    Driver.find( {
+        where: {
+            id: req.params.driver_id
+        }
+    } ).done( function( err, driver ){
+        if( !!err ){
+            console.log( err );
+            return next();
+        }
+        else if( !driver ){
+            console.log( 'No driver found' );
+            res.send( 400, { errors: [ 'Driver not found' ] } );
+        }
+        else{
+            if( driver.status == 0 ){
+                driver.status = 1;
+                driver.save().done( function(){
+                    res.send( 200, { driver: driver } );
+                    return next();
+                } )
+            }
+            else{
+                res.send( 400, { errors: [ "Driver cannot be deleted" ] } );
+                return next();
+            }
+        }
+    } );
+};
+
+
