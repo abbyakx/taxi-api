@@ -18,8 +18,6 @@ exports.index = function( req, res, next ){
             return next();
         }
         else{
-            console.log( "Here are the vehicles" );
-            console.log( JSON.stringify( vehicle ) );
 
             res.send( 200, { vehicles: vehicle } );
             return next();
@@ -50,8 +48,7 @@ exports.create = function( req, res, next ){
 
 
             res.send( 200, { vehicle: newVehicle } );
-            console.log( "New schedule is created" );
-            console.log( newVehicle );
+
             return next();
         }
     } );
@@ -74,8 +71,7 @@ exports.view = function( req, res, next ){
             res.send( 400, { errors: [ 'Vehicle not found' ] } );
         }
         else{
-            console.log( "Here is the Schedule" );
-            console.log( JSON.stringify( vehicle ) );
+
 
             res.send( 200, { schedule: vehicle } );
             return next();

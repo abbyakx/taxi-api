@@ -19,8 +19,7 @@ exports.index = function( req, res, next ){
             return next();
         }
         else{
-            console.log( "Here are the schedules" );
-            console.log( JSON.stringify( schedule ) );
+
 
             res.send( 200, { schedules: schedule } );
             return next();
@@ -78,8 +77,7 @@ exports.create = function( req, res, next ){
                             newSchedule.values.driver_id = newSchedule.driver_id;
 
                             res.send( 200, { schedule: newSchedule } );
-                            console.log( "New schedule is created" );
-                            console.log( newSchedule );
+
                             return next();
                         }
                     } );
@@ -104,8 +102,7 @@ exports.view = function( req, res, next ){
             res.send( 400, { errors: [ 'Schedule not found' ] } );
         }
         else{
-            console.log( "Here is the Schedule" );
-            console.log( JSON.stringify( schedule ) );
+
 
             res.send( 200, { schedule: schedule } );
             return next();

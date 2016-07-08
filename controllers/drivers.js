@@ -18,9 +18,6 @@ exports.index = function( req, res, next ){
             return next();
         }
         else{
-            console.log( "Here are the drivers" );
-            console.log( JSON.stringify( driver ) );
-
             res.send( 200, { drivers: driver } );
             return next();
         }
@@ -45,9 +42,7 @@ exports.create = function( req, res, next ){
             newDriver.values.license_number = newDriver.license_number;
 
             res.send( 200, { driver: newDriver } );
-            console.log( "New Driver is created" );
-            console.log( newDriver );
-            return next();
+                        return next();
         }
     } );
 };
@@ -67,8 +62,6 @@ exports.view = function( req, res, next ){
             res.send( 400, { errors: [ 'Driver not found' ] } );
         }
         else{
-            console.log( "Here is the driver" );
-            console.log( JSON.stringify(driver) );
 
             res.send( 200, { driver: driver } );
             return next();
