@@ -29,6 +29,7 @@ exports.index = function( req, res, next ){
 };
 
 exports.create = function( req, res, next ){
+    console.log(req.body.schedule)
     if( !req.body.schedule.driver_id ){
         res.send( 400, { errors: [ "Must have a driver for the schedule" ] } )
     }
@@ -127,22 +128,18 @@ exports.update = function( req, res, next ){
             res.send( 400, { errors: [ 'Vehicle not found' ] } );
         }
         else{
-            if( !!req.body.schedule.day_of_week ){
+            if( req.body.schedule.day_of_week != schedule.day_of_week){
                 res.send( 400, { error: [ "Cannot change the day of week for the schedule" ] } );
                 return next();
             }
-            if( !!req.body.schedule.start_time ){
+            else if( !!req.body.schedule.start_time ){
                 schedule.start_time = req.body.schedule.start_time;
             }
-            if( !!req.body.schedule.end_time ){
+            else if( !!req.body.schedule.end_time ){
                 schedule.end_time = req.body.schedule.end_time;
             }
-            if( !!req.body.schedule.vehicle_id ){
+            else if( !!req.body.schedule.vehicle_id ){
                 schedule.vehicle_id = req.body.schedule.vehicle_id;
-            }
-            else{
-                res.send( 400, { errors: [ "Invalid entries" ] } );
-                return next();
             }
 
             schedule.save().done( function(){
