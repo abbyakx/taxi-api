@@ -40,7 +40,6 @@ exports.create = function( req, res, next ){
             newDriver.values.first_name = newDriver.first_name;
             newDriver.values.last_name = newDriver.last_name;
             newDriver.values.license_number = newDriver.license_number;
-
             res.send( 200, { driver: newDriver } );
                         return next();
         }

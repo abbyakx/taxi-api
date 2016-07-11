@@ -28,7 +28,7 @@ exports.index = function( req, res, next ){
 };
 
 exports.create = function( req, res, next ){
-    console.log(req.body.schedule)
+
     if( !req.body.schedule.driver_id ){
         res.send( 400, { errors: [ "Must have a driver for the schedule" ] } )
     }
@@ -75,6 +75,7 @@ exports.create = function( req, res, next ){
                             newSchedule.values.start_time = newSchedule.start_time;
                             newSchedule.values.end_time = newSchedule.end_time;
                             newSchedule.values.driver_id = newSchedule.driver_id;
+                            console.log(newSchedule)
 
                             res.send( 200, { schedule: newSchedule } );
 
