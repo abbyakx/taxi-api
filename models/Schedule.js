@@ -6,8 +6,13 @@ module.exports = function( sequelize, DataTypes ){
                 primaryKey: true
             },
             day_of_week: {
-                type: DataTypes.STRING,
-                allowNull: false
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                validate: {
+                    isIn: [
+                       [ 0, 1, 2, 3, 4, 5, 6]
+                    ]
+                }
             },
             driver_id: {
                 type: DataTypes.STRING,
